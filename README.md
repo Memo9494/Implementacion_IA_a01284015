@@ -14,3 +14,8 @@ Se van a trabajar los siguientes indicadores:
 - Implementa una técnica o algoritmo de aprendizaje máquina, sin uso de marco de trabajo o framework como regresiones, árboles clusters, etc... 
 
 - Usa un marco de trabajo o framework para implementa una técnica o algoritmo de aprendizaje máquina como: regresiones, árboles, clusters, etc..
+
+En la carpeta ENTREGABLES se encuentran los entregables de la materia
+- Entregables 
+    == Regresion Logistica
+    ===     Dentro de la carpeta se encuentra el archivo log_reg.py El cual es el en entregable del lunes 21 de Agosto
