@@ -36,11 +36,14 @@ for i in df['is_genuine']:
 df20 = shuffle.iloc[:twenty_percent,:]
 df80 = shuffle.iloc[twenty_percent:,:]
 
+#Convertir los datos a numpy arrays
 X_train = np.array(df80[['diagonal','height_left','height_right','margin_low','margin_up','length']])
 y_train = np.array(df80['is_genuine'])
 X_test = np.array(df20[['diagonal','height_left','height_right','margin_low','margin_up','length']])
 y_test = np.array(df20['is_genuine'])
 
+
+#Inicializar los thetas y deltas de manera aleatoria para las variables
 theta0 = np.random.rand(1)
 thetak = np.random.rand(6)
 delta0 = np.random.rand(1)
@@ -49,6 +52,8 @@ alpha = 0.001
 iterations = 1000
 n = len(X_train)
 
+
+#Realizamos el descenso de gradiente para encontrar los thetas
 
 for i in range(iterations):
     print(theta0,thetak)
@@ -59,4 +64,6 @@ for i in range(iterations):
     for j in range(len(thetak)):
         thetak[j] = thetak[j] - alpha*deltak[j]
 
+
+#Aquí tengo un error, mis thetas se indeterminan, me ayudaría mucho sí encuentra un error en mi código/lógica y le agradezo mucho de antemano
 print(theta0,thetak)
