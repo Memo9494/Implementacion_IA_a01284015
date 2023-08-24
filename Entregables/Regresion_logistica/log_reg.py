@@ -90,7 +90,7 @@ if hyp[0] > 0.5:
     hyp[0] = 1
 else:
     hyp[0] = 0
-    
+
 
 Falso_positivo = 0
 Falso_negativo = 0
@@ -128,3 +128,15 @@ print("F1: ",(2*Verdadero_positivo)/(2*Verdadero_positivo+Falso_positivo+Falso_n
 
 # print(theta0,thetak)
 
+from sklearn.neighbors import KNeighborsClassifier  # Clasificador de Vecinos más Cercanos
+from sklearn.svm import SVC  # Clasificador de Vectores de Soporte
+from sklearn.linear_model import LogisticRegression  # Clasificador de Regresión Logística
+from sklearn.tree import DecisionTreeClassifier  # Clasificador de Árbol de Decisiones
+from sklearn.naive_bayes import GaussianNB  # Clasificador Bayesiano Ingenuo Gaussiano
+from sklearn.ensemble import RandomForestClassifier  # Clasificador de Bosque Aleatorio
+from sklearn.ensemble import GradientBoostingClassifier  # Clasificador de Aumento de Gradiente
+from sklearn.neural_network import MLPClassifier  # Clasificador de Perceptrón Multicapa
+
+# Descripción y características de cada modelo:
+# DecisionTreeClassifier: Construye un árbol de decisión que divide recursivamente el espacio de características en regiones más puras.
+#                         Es fácilmente interpretable, pero puede ser propenso al sobreajuste si no se controla adecuadamente.
