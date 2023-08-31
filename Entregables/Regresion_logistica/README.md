@@ -1,4 +1,42 @@
+# Modelo de Aprendizaje Automático para Análisis de Datos
 
+## Descripción
+
+Este repositorio contiene un modelo de Aprendizaje Automático (Machine Learning) diseñado para el análisis de datos. El modelo ha sido implementado en Python y utiliza diferentes funciones así como librerías para crear un algoritmo de machine learning, en específico se creó un algoritmo de tipo clasificación utilizando regresión logística para n variables.
+
+## Dataset
+
+El modelo utiliza el conjunto de datos "DatasetML" para entrenar y evaluar su rendimiento. El dataset consiste en datos etiquetados recopilados de https://www.kaggle.com/datasets/alexandrepetit881234/fake-bills. 
+Este dataset tiene las siguientes variables como columnas:
+1500 filas con 7 columnas:
+
+is_genuine: boolean
+diagonal: float
+height_left: float
+height_right: float
+margin_low: float
+margin_upper: float
+length: float
+
+Por lo que utilizaremos 6 variables independientes y una dependiente, esto con el objetivo de precdecir si un billete es falso o veradero
+
+## Cambios Implementados
+
+En esta sección, se describen los cambios implementados en el modelo con respecto a la versión anterior, para abordar los comentarios proporcionados por el docente:
+
+- **Cambio Indicado**: El docente sugirió cambiar el valor de las thetas de las variables independientes
+- **Acciones Tomadas**: Para abordar este comentario, se realizaron las siguientes acciones:
+  1. Se cambió la función de hipótesis para que fuera utilizada en cada xi como la suma de un producto punto de (thetas, x) y thetha0 
+  2. Se hizo un cambio en la aproximación a los datos, primero se limpiaron y despues se le realizó un análisis para identificar cuáles de las variables eran más importantes en el modelo
+  3. Utilizando el modelo de Gradient Boosting, identifiqué que solamente las variables de Lenght, margin_up y margin_low eran significantes para el modelo, por lo que sólo utilicé esas 3
+  4. Además utilicé la función de MinMaxScaler de sklearn para normalizar los datos, este se basa en la siguiente ecuación: x_normalized = (x - x_min) / (x_max - x_min). Y te permite tener tus datos en un rango de 0 a 1
+  5. Se hizo un análisis de varias thetas para buscar alguna que mejore la predicción 
+
+## ESTRUCTURA DEL CODIGO
+
+Primero se importan las librerías necesarias para realizar el análisis
+
+```python
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,8 +44,9 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
-
-
+```
+Después se crean las funciones matemáticas de costo y deltas de theta, estas nos ayudaran a utilizar el método del gradiente para actualizar nuestros valores de theta utilizados en una función de regresión logística, redefinir con cada iteración estos parámetros nos ayuda a acercarnos a la relevancia de cada variable independiente de nuestro problema
+```python
 #Función para el cambio en theta0
 def dtheta0(X,y,theta0,thetak,hyp):
     return np.sum(hyp-y)/len(X)
@@ -29,30 +68,10 @@ def h(x,theta0,thetak):
     x_return = np.array(x_return)
     return np.array(1/(1+np.exp(-(theta0+x_return))))
 
+```
+En la siguiente sección se limpia y se separa el dataset con las variables necesarias para el análisis. No obstante, antes de eso se realizó un análisis con otro modelo de librería para buscar que variables eran más significantes para el modelo.
 
-    # for i in range(len(thetak)):
-    #     print(x[:,i])
-    # # x_dot = []
-    # for i in range(len(x)):
-    #     x_dot.append(np.dot(x[i],thetak))
-    # return 1/(1+np.exp(-(theta0+x_dot)))
-
-# Leer el archivo csv
-df = pd.read_csv('/Users/guillermocepeda/C:C++/Implementacion_IA_a01284015/Entregables/Regresion_logistica/fake_bills.csv', sep=';')
-# print(df.head())
-
-# Convertir las etiquetas a valores numéricos
-df['is_genuine'] = df['is_genuine'].replace(['False', 'True'], [0, 1])
-
-# Eliminar filas con valores NaN
-df = df.dropna()
-
-# Dividir los datos en entrenamiento y prueba x sólo las variables que se consideran importantes length, margin_low y margin_up
-X = df[['length', 'margin_low', 'margin_up']]
-
-# X = df[['diagonal', 'height_left', 'height_right', 'margin_low', 'margin_up', 'length']]
-y = df['is_genuine']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+```python
 
 # Entrenar el modelo Gradient Boosting
 GB = GradientBoostingClassifier(learning_rate=0.01, n_estimators=1000)
@@ -65,19 +84,24 @@ cm = confusion_matrix(y_test, y_pred)
 score = GB.score(X_test, y_test)
 print(score, accuracy_score(y_test, y_pred), "score")
 print(cm)
-#Gradient Boosting tiene un score de 1.0, lo cual es muy bueno, pero esto puede ser debido a que el modelo está sobreajustado
+```
 
-# Visualizar la importancia de las características
-feat_imp = pd.Series(GB.feature_importances_, ['diagonal', 'height_left', 'height_right', 'margin_low', 'margin_up', 'length']).sort_values(ascending=False)
-feat_imp.plot(kind='bar', title='Importancia de las variables')
-plt.ylabel('Importancia de las variables')
-plt.show()
-#Este plot nos indica que las únicas variables de importancia son lenght, margin_low y margin_up
+Se concluye con los resultados que la variables más significativas son 
+```python
+X = df[['length', 'margin_low', 'margin_up']]
+```
 
+Habiendo hecho esto separamos los datos
 
+```python
+y = df['is_genuine']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+```
+
+Utilizamos la función MinMaxScaler para normalizar nuestros datos
+```python
 from sklearn.preprocessing import MinMaxScaler
-#Utilizamos el método de MinMaxScaler para normalizar los datos, este se basa en la siguiente ecuación: x_normalized = (x - x_min) / (x_max - x_min)
-
 # Inicializa el escalador
 scaler = MinMaxScaler()
 
@@ -92,12 +116,11 @@ X_train_scaled.columns = ['length', 'margin_low', 'margin_up']
 X_test_scaled.columns = ['length', 'margin_low', 'margin_up']
 
 print(X_train_scaled.head())
+```
 
+Ahora que tenemos los datos normalizados, podemos implementar nuestro modelo de regresión logística y obtener una predicción
 
-
-
-
-
+```python
 #Inicializar los thetas y deltas de manera aleatoria para las variables
 theta0 = 0.1
 thetak = [0.2,0.3,0.4]
@@ -125,6 +148,11 @@ for i in range(iterations):
     for j in range(len(thetak)):
         thetak[j] = thetak[j] - alpha*deltak[j]
 
+```
+
+Y ahora realizamos el análisis y predicciones
+
+```python
 
 #predicciones con mi hipótesis
 hyp = h(X_test,theta0,thetak)
@@ -179,27 +207,27 @@ print("F1: ",(2*Verdadero_positivo)/(2*Verdadero_positivo+Falso_positivo+Falso_n
 #Se corren algunas predicciones para validar la salida del modelo, usando datos diferentes a los de entrenamiento
 
 
-#Hasta aquí se realizó el algoritmo con éxito sin uso de un framework, pero se decidió utilizar el framework de sklearn para comparar resultados
+```
+
+Tras las mejoras realizadas después de la revisión pasada, mi modelo pasó de tener una exactitud y presición de 0% y 0% a:
+
+# Falso positivo:  3
+# Falso negativo:  0
+# Verdadero positivo:  197
+# Verdadero negativo:  93
+# Exactitud:  0.9897610921501706
+# Precisión:  0.985
+# Exhaustividad:  1.0
+# F1:  0.9924433249370277
+
+Para complementar el análisis, se hizo el mismo entrenamiento pero con el modelo de sklearn,
+```python
 from sklearn.linear_model import LogisticRegression
 LogisticRegression = LogisticRegression()
 LogisticRegression.fit(X_train, y_train)
 y_pred = LogisticRegression.predict(X_test)
 print(y_pred)
 confusion_matrix_sk = confusion_matrix(y_test, y_pred)
-plt.clf()
-plt.imshow(confusion_matrix_sk, interpolation='nearest', cmap=plt.cm.Wistia)
-classNames = ['Negative','Positive']
-plt.title('Confusion Matrix - Test Data - Logistic Regression')
-plt.ylabel('True label')
-plt.xlabel('Predicted label')
-tick_marks = np.arange(len(classNames))
-plt.xticks(tick_marks, classNames, rotation=45)
-plt.yticks(tick_marks, classNames)
-s = [['TN','FP'], ['FN', 'TP']]
-for i in range(2):
-    for j in range(2):
-        plt.text(j,i, str(s[i][j])+" = "+str(confusion_matrix_sk[i][j]))
-plt.show()
-print("Score: ",LogisticRegression.score(X_test, y_test))
-print("Exactitud: ",accuracy_score(y_test, y_pred))
+```
 
+El resultado de sklearn fue perfecto, del 100%, muy cercano al nuestro, por lo que podemos concluir que fue bien implementado

@@ -18,4 +18,5 @@ Se van a trabajar los siguientes indicadores:
 En la carpeta ENTREGABLES se encuentran los entregables de la materia
 - Entregables 
     == Regresion Logistica
-    ===     Dentro de la carpeta se encuentra el archivo log_reg.py El cual es el en entregable del lunes 21 de Agosto
+    ===     Dentro de la carpeta se encuentra el archivo log_reg.py El cual es el en entregable del lunes 21 de Agosto, así como un README con la explicación del código y procedimiento, además de un pdf con la misma información.
+
