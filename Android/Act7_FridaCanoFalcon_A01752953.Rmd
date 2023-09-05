@@ -1,0 +1,132 @@
+---
+title: "Act7_FridaCanoFalcon_A01752953"
+author: "Frida Cano Falcon"
+date: "2023-08-29"
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+library(nortest)
+M = read.csv("Estatura-peso_HyM.csv")
+```
+
+## Medidas
+```{r}
+MM = subset(M,M$Sexo=="M")
+MH = subset(M,M$Sexo=="H")
+M1 = data.frame(MH$Estatura,MH$Peso,MM$Estatura,MM$Peso)
+
+n=4 #número de variables
+d=matrix(NA,ncol=7,nrow=n)
+for(i in 1:n){
+  d[i,]<-c(as.numeric(summary(M1[,i])),sd(M1[ ,i]))
+}
+m=as.data.frame(d)
+row.names(m)=c("H-Estatura","H-Peso","M-Estatura","M-Peso")
+names(m)=c("Minimo","Q1","Mediana","Media","Q3","Máximo","Desv Est")
+m
+```
+
+## Describir las variables
+```{r}
+boxplot(M$Estatura~M$Sexo, ylab="Estatura", xlab="", col=c("blue","pink"), names=c("Hombres", "Mujeres"), main="Estatura")
+boxplot(M$Peso~M$Sexo, ylab="Peso",xlab="", names=c("Hombres", "Mujeres"), col=c("blue","pink"), main="Peso")
+```
+## Regresión Lineal
+
+### El modelo con Sexo
+```{r}
+A = lm(M$Peso~M$Estatura+M$Sexo)
+A
+```
+
+
+```{r}
+b0 = A$coefficients[1]
+b1 = A$coefficients[2]
+b2 = A$coefficients[3]
+
+cat("Peso =",b0,"+",b1,"Estatura",b2,"SexoM")
+```
+
+## Verificación del modelo
+* Significancia global
+* Significancia individual
+* Porcentaje de variación explicada por el modelo
+
+```{r}
+summary(A)
+```
+
+## Ecuación del modelo
+```{r}
+# Para mujeres (SexoM=1)
+cat("Para mujeres","\n")
+cat("Peso =",b0+b2,"+",b1,"Estatura")
+
+# Para hombres (SexoM=0)
+cat("\nPara hombres","\n")
+cat("Peso =",b0,"+",b1,"Estatura")
+
+```
+*Grafica*
+```{r}
+x = seq(1.4, 2.0, by=0.2)
+
+Ym = function(x){b0+b2+(b1*x)}
+Yh = function(x){b0+b1*x}
+
+colores= c("blue","pink")
+plot(M$Estatura,M$Peso,col=colores[factor(M$Sexo)],pch=19,ylab="Peso",xlab="Estatura",main="Relación Peso vs Estatura")
+
+lines(x, Yh(x), col="blue", lwd=3)
+lines(x, Ym(x), col="pink", lwd=3)
+```
+## Interpretación
+Vemos que para cada sexo existe una relación entre la estatura y peso, es decir, entre más alto sea la persona más peso tiene.
+En el contexto de tu modelo de regresión lineal donde estás prediciendo el peso a partir de la estatura y el género (codificado como una variable binaria, por ejemplo, 0 para mujeres y 1 para hombres), el coeficiente B0 se refiere al valor de la variable dependiente (peso) cuando la estatura es cero y el género es "mujer".
+En el caso del género, al codificarlo como 0 para mujeres y 1 para hombres, la interpretación es que el coeficientee B0 representa la diferencia en el peso promedio entre mujeres y hombres cuando la estatura es cero, lo cual no tiene una interpretación práctica o realista.
+
+El coeficiente B1 se refiere al cambio promedio en el peso cuando la estatura aumenta en una unidad, considerando ambos géneros.
+Si el coeficiente B1 es positivo y significativo, significa que, en promedio, a medida que la estatura aumenta, se espera que el peso también aumente, manteniendo constante el género. Si el coeficiente B1 es negativo y significativo, indica que a medida que la estatura aumenta, se espera que el peso disminuya, nuevamente manteniendo constante el género.
+
+## Modelo de interacción
+```{r}
+B = lm(M$Peso~M$Estatura*M$Sexo)
+```
+
+## Significancia
+```{r}
+summary(B)
+```
+## NO HAY MODELO DE INTERACCIÓN
+Porque nos dimos cuenta que el sexo si es significativo
+
+## Validez del modelo
+
+Análisis de residuos, normalidad de los residuos
+
+```{r}
+library(nortest)
+ad.test(A$residuals) # Porque tiene más de 50 valores
+
+qqnorm(A$residuals)
+qqline(A$residuals)
+hist(A$residuals,freq=FALSE, ylim=c(0,0.1),xlab="Residuos", col=0)
+lines(density(A$residuals),col="red")
+curve(dnorm(x,mean=mean(A$residuals),sd=sd(A$residuals)), from=min(A$residuals), to=max(A$residuals), add=TRUE, col="blue",lwd=2)
+```
+### Normalidad de los residuos
+En este caso se rechaza la hipótesis de normalidad debido a que p<alpha, pero solo por muy poco.
+
+###Media de los errores
+
+```{r}
+t.test(A$residuals)
+```
+###Homocedasticidad e independencia
+```{r}
+plot(A$fitted.values,A$residuals)
+abline(h=0)
+```
