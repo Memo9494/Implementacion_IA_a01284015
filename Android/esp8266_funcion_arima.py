@@ -116,11 +116,13 @@ print(model)
 
 #Importar el modelo para usarlo con micropython
 import joblib
-joblib.dump(model, 'model.pkl')
+from joblib import dump
+dump(model,'modelo_neuronal.joblib')
 
-import pickle
-with open('modelo_neuronal.pkl', 'wb') as f:
-    pickle.dump(model, f)
+
+# import pickle
+# with open('modelo_neuronal.pkl', 'wb') as f:
+#     pickle.dump(model, f)
 
 
 
