@@ -31,7 +31,7 @@ plt.plot(minuto, temperatura)
 
 
 # Leer el archivo csv
-df = pd.read_csv('/Users/guillermocepeda/C:C++/Implementacion_IA_a01284015/Android/temperatura.csv', sep=';')
+df = pd.read_csv('/home/guillermo/Desktop/cosas_ai/Implementacion_IA_a01284015/Android/temperatura.csv', sep=';')
 
 print(df.head())
 
@@ -115,9 +115,11 @@ print(model)
 # y_pred = model.predict(X)
 
 #Importar el modelo para usarlo con micropython
-import joblib
-from joblib import dump
-dump(model,'modelo_neuronal.joblib')
+import ujson
+with open('modelo_neuronal.json', 'w') as f:
+    ujson.dump(model, f)
+
+
 
 
 # import pickle
