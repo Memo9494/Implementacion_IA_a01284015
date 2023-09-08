@@ -16,7 +16,8 @@ Se van a trabajar los siguientes indicadores:
 - Usa un marco de trabajo o framework para implementa una técnica o algoritmo de aprendizaje máquina como: regresiones, árboles, clusters, etc..
 
 En la carpeta ENTREGABLES se encuentran los entregables de la materia
-- Entregables 
+- Entregables
+    == En la carpeta Entrega_regresion_logistica se encuentra el entregable del codigo, el readme y el pdf que realizan una prediccion y análisis de una base dee datos de billetes falsos
     == Regresion Logistica
     ===     Dentro de la carpeta se encuentra el archivo log_reg.py El cual es el en entregable del lunes 21 de Agosto, así como un README con la explicación del código y procedimiento, además de un pdf con la misma información.
-
+    

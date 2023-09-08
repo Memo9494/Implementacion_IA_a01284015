@@ -68,10 +68,10 @@ print(cm)
 #Gradient Boosting tiene un score de 1.0, lo cual es muy bueno, pero esto puede ser debido a que el modelo está sobreajustado
 
 # Visualizar la importancia de las características
-feat_imp = pd.Series(GB.feature_importances_, ['diagonal', 'height_left', 'height_right', 'margin_low', 'margin_up', 'length']).sort_values(ascending=False)
-feat_imp.plot(kind='bar', title='Importancia de las variables')
-plt.ylabel('Importancia de las variables')
-plt.show()
+# feat_imp = pd.Series(GB.feature_importances_, ['diagonal', 'height_left', 'height_right', 'margin_low', 'margin_up', 'length']).sort_values(ascending=False)
+# feat_imp.plot(kind='bar', title='Importancia de las variables')
+# plt.ylabel('Importancia de las variables')
+# plt.show()
 #Este plot nos indica que las únicas variables de importancia son lenght, margin_low y margin_up
 
 
@@ -137,7 +137,7 @@ print("Predicted labels: ",predicted_labels)
 print("Real labels: ",y_test)
 
 
-print(hyp)
+# print(hyp)
 
 for i in range(len(hyp)):
     if hyp[i] >= 0.5:
@@ -176,15 +176,72 @@ print("Exhaustividad: ",(Verdadero_positivo)/(Verdadero_positivo+Falso_negativo)
 #F1
 print("F1: ",(2*Verdadero_positivo)/(2*Verdadero_positivo+Falso_positivo+Falso_negativo))
 
+#varianza y desviación estándar
+desv = hyp - y_test
+var = desv**2
+print("Varianza: ",np.sum(var)/len(var))
+print("Desviación estándar: ",np.sqrt(np.sum(var)/len(var)))
+
+#Probar datos entramiento para ver que tan bien se ajusta el modelo
+hyp2 = h(X_train,theta0,thetak)
+predicted_labels2 = (hyp2 >= 0.5).astype(int)
+
+Falso_positivo = 0
+Falso_negativo = 0
+Verdadero_positivo = 0
+Verdadero_negativo = 0
+for i in range(len(hyp2)):
+    if hyp2[i] == 1 and y_train[i] == 1:
+        Verdadero_positivo += 1
+    elif hyp2[i] == 1 and y_train[i] == 0:
+        Falso_positivo += 1
+    elif hyp2[i] == 0 and y_train[i] == 1:
+        Falso_negativo += 1
+    elif hyp2[i] == 0 and y_train[i] == 0:
+        Verdadero_negativo += 1
+
+print("Falso positivo entrenamiento: ",Falso_positivo)
+print("Falso negativo entrenamiento: ",Falso_negativo)
+print("Verdadero positivo entrenamiento: ",Verdadero_positivo)
+print("Verdadero negativo entrenamiento: ",Verdadero_negativo)
+
+#Exactitud
+print("Exactitud entrenamiento: ",(Verdadero_positivo+Verdadero_negativo)/(Verdadero_positivo+Verdadero_negativo+Falso_positivo+Falso_negativo))
+#Precisión
+print("Precisión entrenamiento: ",(Verdadero_positivo)/(Verdadero_positivo+Falso_positivo))
+#Exhaustividad
+print("Exhaustividad entrenamiento: ",(Verdadero_positivo)/(Verdadero_positivo+Falso_negativo))
+#F1
+print("F1 entrenamiento: ",(2*Verdadero_positivo)/(2*Verdadero_positivo+Falso_positivo+Falso_negativo))
+
+
+
+
+
 #Se corren algunas predicciones para validar la salida del modelo, usando datos diferentes a los de entrenamiento
 
+# confusion_matrix = confusion_matrix(y_test, hyp)
+# plt.clf()
+# plt.imshow(confusion_matrix, interpolation='nearest', cmap=plt.cm.Wistia)
+# classNames = ['Negative','Positive']
+# plt.title('Confusion Matrix - Test Data - Logistic Regression')
+# plt.ylabel('True label')
+# plt.xlabel('Predicted label')
+# tick_marks = np.arange(len(classNames))
+# plt.xticks(tick_marks, classNames, rotation=45)
+# plt.yticks(tick_marks, classNames)
+# s = [['TN','FP'], ['FN', 'TP']]
+# for i in range(2):
+#     for j in range(2):
+#         plt.text(j,i, str(s[i][j])+" = "+str(confusion_matrix[i][j]))
+# plt.show()
 
 #Hasta aquí se realizó el algoritmo con éxito sin uso de un framework, pero se decidió utilizar el framework de sklearn para comparar resultados
 from sklearn.linear_model import LogisticRegression
 LogisticRegression = LogisticRegression()
 LogisticRegression.fit(X_train, y_train)
 y_pred = LogisticRegression.predict(X_test)
-print(y_pred)
+# print(y_pred)
 confusion_matrix_sk = confusion_matrix(y_test, y_pred)
 plt.clf()
 plt.imshow(confusion_matrix_sk, interpolation='nearest', cmap=plt.cm.Wistia)

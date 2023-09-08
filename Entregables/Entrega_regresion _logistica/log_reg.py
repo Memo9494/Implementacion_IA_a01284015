@@ -38,7 +38,7 @@ def h(x,theta0,thetak):
     # return 1/(1+np.exp(-(theta0+x_dot)))
 
 # Leer el archivo csv
-df = pd.read_csv('/Users/guillermocepeda/C:C++/Implementacion_IA_a01284015/Entregables/Regresion_logistica/fake_bills.csv', sep=';')
+df = pd.read_csv('/Users/guillermocepeda/C:C++/Implementacion_IA_a01284015/Entregables/Entrega_regresion _logistica/fake_bills.csv', sep=';')
 # print(df.head())
 
 # Convertir las etiquetas a valores numéricos
