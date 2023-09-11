@@ -3,6 +3,7 @@
 ## Descripción
 
 Este repositorio contiene un modelo de Aprendizaje Automático (Machine Learning) diseñado para el análisis de datos. El modelo ha sido implementado en Python y utiliza diferentes funciones así como librerías para crear un algoritmo de machine learning, en específico se creó un algoritmo de tipo clasificación utilizando regresión logística para n variables.
+Lo que se quiere lograr con este modelo es predecir si un billete es falso o no, utilzando un modelo de regresion lodgistica, implementando los algoritmos linea por linea para entender el funcionamiento de este
 
 ## Dataset
 
