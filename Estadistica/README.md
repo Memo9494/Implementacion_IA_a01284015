@@ -5,3 +5,9 @@ En esta carpeta se encuentran los siguientes documentos:
 # Codigo en Jupiter Notebook con el procesamiento y analisis estadistico
 
 # Reporte del dataset
+
+# Actividad Regresion lineal
+
+# Actividad Intervalos
+
+# Actividad prubeas hipotesis
