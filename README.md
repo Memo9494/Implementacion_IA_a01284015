@@ -16,9 +16,11 @@ Se van a trabajar los siguientes indicadores:
 - Usa un marco de trabajo o framework para implementa una técnica o algoritmo de aprendizaje máquina como: regresiones, árboles, clusters, etc..
 
 
-El código fuente y detalles específicos se encuentran en el archivo [README_ML.md](machine_learning/README_ML.md).
+Los detalles especificos de la implementacion del proyecto asi como la descripcion de los elementos a utilizar y un analisis detallado de las herramientas utilizadas, se pueden encontrar el archivo [README.md](machine_learning/README.md).
 
 ### Entregables
+
+
 
 - `Implementacion_sin_framework/`
   - `reg_log.py`: Código Python para la implementación de un modelo de regresión logística sin utilizar frameworks.
