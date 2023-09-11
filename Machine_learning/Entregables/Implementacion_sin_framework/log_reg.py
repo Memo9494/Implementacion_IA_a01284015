@@ -185,6 +185,48 @@ plt.ylabel('Etiquetas reales')
 plt.xlabel('Etiquetas predichas')
 plt.show()
 
+#Ahora con los datos de prueba
+hyp = h(X_train,theta0,thetak)
+predicted_labels = (hyp >= 0.5).astype(int)
+
+for i in range(len(hyp)):
+    if hyp[i] >= 0.5:
+        hyp[i] = 1
+    else:
+        hyp[i] = 0
+
+for i in range(len(hyp)):
+    if hyp[i] == 1 and y_train[i] == 1:
+        Verdadero_positivo += 1
+    elif hyp[i] == 1 and y_train[i] == 0:
+        Falso_positivo += 1
+    elif hyp[i] == 0 and y_train[i] == 1:
+        Falso_negativo += 1
+    elif hyp[i] == 0 and y_train[i] == 0:
+        Verdadero_negativo += 1
+
+print("Falso positivo: ",Falso_positivo)
+print("Falso negativo: ",Falso_negativo)
+print("Verdadero positivo: ",Verdadero_positivo)
+print("Verdadero negativo: ",Verdadero_negativo)
+
+#Exactitud
+print("Exactitud: ",(Verdadero_positivo+Verdadero_negativo)/(Verdadero_positivo+Verdadero_negativo+Falso_positivo+Falso_negativo))
+#Precisión
+print("Precisión: ",(Verdadero_positivo)/(Verdadero_positivo+Falso_positivo))
+#Exhaustividad
+print("Exhaustividad: ",(Verdadero_positivo)/(Verdadero_positivo+Falso_negativo))
+#F1
+print("F1: ",(2*Verdadero_positivo)/(2*Verdadero_positivo+Falso_positivo+Falso_negativo))
+
+#Graficar la matriz de confusión
+cm = confusion_matrix(y_train, predicted_labels)
+plt.matshow(cm)
+plt.title('Matriz de confusión')
+plt.colorbar()
+plt.ylabel('Etiquetas reales')
+plt.xlabel('Etiquetas predichas')
+plt.show()
 
 
 

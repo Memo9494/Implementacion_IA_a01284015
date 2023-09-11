@@ -241,4 +241,27 @@ A continuacion una imagen en representacion de la matriz de confusion
 
 ![Matriz de confusion](Figure_2.png)
 
+# Probar datos de entrenamiento
+
+Para comprobar la presicion de nuestro modelo, tambien se probaron los datos de entrenamiento, con los siguientnes resultados:
+Falso positivo:  3
+Falso negativo:  0
+Verdadero positivo:  197
+Verdadero negativo:  93
+Exactitud:  0.9897610921501706
+Precisión:  0.985
+Exhaustividad:  1.0
+F1:  0.9924433249370277
+Falso positivo:  45
+Falso negativo:  1
+Verdadero positivo:  970
+Verdadero negativo:  447
+Exactitud:  0.9685577580314423
+Precisión:  0.9556650246305419
+Exhaustividad:  0.9989701338825953
+F1:  0.9768378650553877
+
+Por lo que podemos apreciar que existe un sesgo grande hacia los positivos en nuestro modelo.
+
+
 
