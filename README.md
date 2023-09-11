@@ -15,6 +15,21 @@ Se van a trabajar los siguientes indicadores:
 
 - Usa un marco de trabajo o framework para implementa una técnica o algoritmo de aprendizaje máquina como: regresiones, árboles, clusters, etc..
 
+
+El código fuente y detalles específicos se encuentran en el archivo [README_ML.md](machine_learning/README_ML.md).
+
+### Entregables
+
+- `Implementacion_sin_framework/`
+  - `reg_log.py`: Código Python para la implementación de un modelo de regresión logística sin utilizar frameworks.
+  - `README.md`: Documentación detallada sobre la implementación sin framework.
+  - `data.csv`: Dataset de entrenamiento.
+
+- `Implementacion_con_framework/`
+  - `log_reg.py`: Código Python para la implementación de un modelo de regresión logística utilizando un framework.
+  - `README.md`: Documentación detallada sobre la implementación con framework.
+  - `data.csv`: Dataset de entrenamiento.
+
 En la carpeta ENTREGABLES se encuentran los entregables de la materia
 - Entregables
     == En la carpeta Entrega_regresion_logistica se encuentra el entregable del codigo, el readme y el pdf que realizan una prediccion y análisis de una base dee datos de billetes falsos
